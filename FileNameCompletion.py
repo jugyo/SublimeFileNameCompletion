@@ -1,7 +1,6 @@
 import sublime_plugin
 from glob import iglob
 import os
-import re
 
 class FileNameCompletion(sublime_plugin.EventListener):
     def on_query_completions(self, view, prefix, locations):

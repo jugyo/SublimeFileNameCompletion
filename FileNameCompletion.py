@@ -1,4 +1,4 @@
-import sublime_plugin
+import sublime, sublime_plugin
 from glob import iglob
 import os
 
@@ -18,4 +18,6 @@ class FileNameCompletion(sublime_plugin.EventListener):
             for pattern in patterns:
                 for filepath in iglob(pattern):
                     words.add(os.path.basename(filepath))
+        words = list(words)
+        words.sort()
         return [(w,) * 2 for w in words]

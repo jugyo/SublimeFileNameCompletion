@@ -8,8 +8,15 @@ class FileNameCompletion(sublime_plugin.EventListener):
         if len(prefix) == 0:
             return []
 
-        words = []
+        words = set()
         for folder in sublime.active_window().folders():
-            for filepath in iglob(folder + "**/%s*" % prefix):
-                words.append(os.path.basename(filepath))
+            patterns = [
+                "%s/%s*" % (folder, prefix),
+                "%s/*/%s*" % (folder, prefix),
+                "%s/*/*/%s*" % (folder, prefix),
+                "%s/*/*/*/%s*" % (folder, prefix)
+            ]
+            for pattern in patterns:
+                for filepath in iglob(pattern):
+                    words.add(os.path.basename(filepath))
         return [(w,) * 2 for w in words]
